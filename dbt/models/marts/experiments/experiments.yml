@@ -1,0 +1,203 @@
+version: 2
+
+models:
+  - name: fct_experiments_assignments
+    description: >
+      One row per user showing when they were first assigned to an experiment variant.
+      If a user was somehow assigned to multiple variants (data quality issue), we take
+      the earliest assignment.
+    columns:
+      - name: user_id
+        description: Unique identifier for the user.
+        tests:
+          - unique
+          - not_null
+
+      - name: experiment_variant
+        description: The variant the user was assigned to (e.g. 'A', 'B').
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['A', 'B']
+
+      - name: assigned_at
+        description: Date when the user was first assigned to this variant.
+        tests:
+          - not_null
+
+      - name: signed_up_at
+        description: Date the user signed up (for context).
+
+      - name: acquisition_channel
+        description: User's acquisition channel (for segmentation).
+
+      - name: country
+        description: User's country (for segmentation).
+
+      - name: user_lifecycle_stage
+        description: User's current lifecycle stage (for segmentation).
+
+      - name: assigned_at_signup
+        description: True if the user was assigned to the experiment on their signup day.
+
+  - name: fct_experiment_conversions
+    description: >
+      One row per user-conversion_event pair, showing when (and if) a user converted
+      on a key metric after being assigned to an experiment variant. Only includes
+      conversions that happened AFTER assignment.
+    columns:
+      - name: user_id
+        description: The user who converted.
+        tests:
+          - not_null
+
+      - name: experiment_variant
+        description: The variant the user was in when they converted.
+        tests:
+          - not_null
+
+      - name: assigned_at
+        description: When the user was assigned to the variant.
+
+      - name: conversion_event
+        description: The event that constitutes a conversion.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['onboarding_completed', 'feature_a_used', 'feature_b_used', 'upgrade', 'cancel']
+
+      - name: converted_at
+        description: When the user fired the conversion event.
+        tests:
+          - not_null
+
+      - name: days_to_conversion
+        description: Days between assignment and conversion.
+
+      - name: hours_to_conversion
+        description: Hours between assignment and conversion.
+
+  - name: rpt_experiment_results
+    description: >
+      Statistical analysis of the A/B test. One row per conversion_event showing
+      conversion rates for each variant, lift, confidence intervals, and statistical
+      significance. Uses a two-proportion z-test at 95% confidence level.
+    columns:
+      - name: conversion_event
+        description: The conversion metric being analyzed.
+        tests:
+          - unique
+          - not_null
+
+      - name: a_total_users
+        description: Total users assigned to variant A.
+
+      - name: a_converted_users
+        description: Users in variant A who converted.
+
+      - name: a_conversion_rate
+        description: Conversion rate for variant A (converted / total).
+
+      - name: a_avg_days_to_conversion
+        description: Average days to conversion for variant A.
+
+      - name: b_total_users
+        description: Total users assigned to variant B.
+
+      - name: b_converted_users
+        description: Users in variant B who converted.
+
+      - name: b_conversion_rate
+        description: Conversion rate for variant B (converted / total).
+
+      - name: b_avg_days_to_conversion
+        description: Average days to conversion for variant B.
+
+      - name: absolute_lift
+        description: Absolute difference in conversion rates (B - A).
+
+      - name: relative_lift_pct
+        description: Relative lift as a percentage ((B - A) / A * 100).
+
+      - name: a_standard_error
+        description: Standard error of the conversion rate for variant A.
+
+      - name: b_standard_error
+        description: Standard error of the conversion rate for variant B.
+
+      - name: pooled_standard_error
+        description: Pooled standard error for the difference in conversion rates.
+
+      - name: z_score
+        description: >
+          Z-score from a two-proportion z-test. Measures how many standard errors
+          the observed difference is from zero. |z| > 1.96 indicates significance at 95%.
+
+      - name: ci_lower
+        description: Lower bound of 95% confidence interval for the lift (B - A).
+
+      - name: ci_upper
+        description: Upper bound of 95% confidence interval for the lift (B - A).
+
+      - name: is_statistically_significant
+        description: >
+          True if the result is statistically significant at 95% confidence level.
+          This means we can reject the null hypothesis that A and B have the same
+          conversion rate.
+
+      - name: winner
+        description: Which variant had the higher conversion rate ('A', 'B', or 'Tie').
+
+  - name: rpt_experiment_results_by_channel
+    description: >
+      Segmented A/B test analysis by acquisition channel. One row per channel-conversion_event
+      pair showing variant performance, lift, and significance. Filters out channels with
+      fewer than 30 users per variant to avoid underpowered comparisons.
+    columns:
+      - name: acquisition_channel
+        description: Marketing acquisition channel.
+        tests:
+          - not_null
+
+      - name: conversion_event
+        description: The conversion metric being analyzed.
+        tests:
+          - not_null
+
+      - name: a_total_users
+        description: Total users in variant A for this channel.
+
+      - name: b_total_users
+        description: Total users in variant B for this channel.
+
+      - name: total_users
+        description: Combined sample size (A + B) for this channel.
+
+      - name: a_conversion_rate
+        description: Conversion rate for variant A in this channel.
+
+      - name: b_conversion_rate
+        description: Conversion rate for variant B in this channel.
+
+      - name: absolute_lift
+        description: Absolute difference in conversion rates (B - A).
+
+      - name: relative_lift_pct
+        description: Relative lift as a percentage ((B - A) / A * 100).
+
+      - name: z_score
+        description: Z-score from two-proportion z-test for this segment.
+
+      - name: ci_lower
+        description: Lower bound of 95% confidence interval for lift.
+
+      - name: ci_upper
+        description: Upper bound of 95% confidence interval for lift.
+
+      - name: is_statistically_significant
+        description: True if significant at 95% confidence level for this segment.
+
+      - name: winner
+        description: Which variant won in this segment ('A', 'B', or 'Tie').

@@ -1,0 +1,156 @@
+version: 2
+
+models:
+  - name: fct_events
+    description: >
+      Fact table of all product events, enriched with user acquisition context
+      and the subscription that was active at the time of the event. This is
+      the primary table for behavioral analysis, funnel analysis, and feature usage.
+    columns:
+      - name: event_id
+        description: Unique identifier for a single event.
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user who fired the event.
+        tests:
+          - not_null
+
+      - name: event_at
+        description: Date the event was fired.
+
+      - name: event_name
+        description: Lowercased event name.
+        tests:
+          - not_null
+
+      - name: device_type
+        description: Device type at event time.
+
+      - name: plan_type
+        description: Plan type at event time (from event log, may differ from subscription).
+
+      - name: experiment_variant
+        description: A/B test variant assigned at event time.
+
+      - name: event_properties
+        description: JSON blob of additional event metadata.
+
+      - name: signed_up_at
+        description: Date the user signed up (from dim).
+
+      - name: acquisition_channel
+        description: User's acquisition channel (from dim).
+
+      - name: country
+        description: User's country (from dim).
+
+      - name: subscription_id
+        description: The subscription that was active when this event fired.
+
+      - name: subscription_plan
+        description: Plan name of the active subscription at event time.
+
+      - name: subscription_status
+        description: Status of the subscription at event time.
+
+      - name: subscription_started_at
+        description: When the active subscription started.
+
+      - name: subscription_ended_at
+        description: When the active subscription ended (null if still active).
+
+      - name: monthly_revenue_usd
+        description: MRR of the active subscription at event time.
+
+      - name: days_since_signup
+        description: >
+          Number of days between user signup and this event. Useful for 
+          analyzing early-lifecycle behavior.
+
+  - name: dim_users
+    description: >
+      Dimension table with one row per user. Contains signup attributes,
+      current subscription state, lifetime activity metrics, and derived
+      lifecycle stage. This is the primary user dimension for all analysis.
+    columns:
+      - name: user_id
+        description: Unique identifier for a user.
+        tests:
+          - unique
+          - not_null
+
+      - name: signed_up_at
+        description: Date the user created their account.
+        tests:
+          - not_null
+
+      - name: acquisition_channel
+        description: Marketing channel that drove the signup.
+
+      - name: country
+        description: Country of the user at signup.
+
+      - name: first_event_at
+        description: Date of the user's first recorded event.
+
+      - name: last_event_at
+        description: Date of the user's most recent event.
+
+      - name: total_events
+        description: Total number of events fired by this user.
+
+      - name: unique_event_types
+        description: Count of distinct event types fired by this user.
+
+      - name: current_subscription_id
+        description: The user's current (or most recent) subscription ID.
+
+      - name: current_plan
+        description: The user's current (or most recent) plan.
+
+      - name: current_subscription_status
+        description: Status of the user's current subscription.
+
+      - name: current_subscription_started_at
+        description: When the current subscription started.
+
+      - name: current_subscription_ended_at
+        description: When the current subscription ended (null if active).
+
+      - name: current_monthly_revenue_usd
+        description: MRR from the user's current subscription.
+
+      - name: is_currently_subscribed
+        description: True if the user has an active subscription.
+
+      - name: total_subscriptions
+        description: Lifetime count of subscriptions for this user.
+
+      - name: lifetime_revenue_usd
+        description: Sum of all MRR across all subscriptions (not LTV, just sum of monthly values).
+
+      - name: last_churn_date
+        description: Most recent date the user churned (ended a subscription).
+
+      - name: total_churns
+        description: Number of times the user has churned.
+
+      - name: user_lifecycle_stage
+        description: >
+          Derived lifecycle stage: 'active' (currently subscribed), 
+          'churned' (had a subscription but cancelled), 
+          'never_subscribed' (signed up but never paid).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'churned', 'never_subscribed', 'other']
+
+      - name: days_since_signup
+        description: Number of days since the user signed up.
+
+      - name: days_since_last_event
+        description: Number of days since the user's last event (recency metric).

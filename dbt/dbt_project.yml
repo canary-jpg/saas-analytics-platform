@@ -1,0 +1,18 @@
+name: 'saas_analytics'
+version: '1.0.0'
+
+
+
+profile: 'saas_analytics'
+
+model-paths: ["models"]
+target-path: "target"
+snapshot-paths: ["snapshots"]
+seed-paths: ["data"]
+test-paths: ["tests"]
+analysis-paths: ["analysis"]
+macro-paths: ["macros"]
+
+models:
+  saas_analytics:
+    +materialized: view

@@ -1,0 +1,119 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: >
+      One row per user. Cleaned and renamed from raw_users. 
+      This is the canonical source of user identity and acquisition metadata.
+    columns:
+      - name: user_id
+        description: Unique identifier for a user.
+        tests:
+          - unique
+          - not_null
+
+      - name: signed_up_at
+        description: Date the user created their account.
+        tests:
+          - not_null
+
+      - name: acquisition_channel
+        description: Lowercased marketing channel that drove the signup.
+
+      - name: country
+        description: Lowercased country of the user at signup.
+
+  - name: stg_events
+    description: >
+      One row per product event. Cleaned and renamed from raw_events.
+      This table is high-volume — use with filters where possible.
+    columns:
+      - name: event_id
+        description: Unique identifier for a single event.
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user who fired the event.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+
+      - name: event_at
+        description: Date the event was fired.
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+      - name: event_name
+        description: Lowercased event name.
+        tests:
+          - not_null
+
+      - name: device_type
+        description: Lowercased device type (e.g. mobile, desktop, tablet).
+
+      - name: plan_type
+        description: Lowercased plan active at the time of the event.
+
+      - name: experiment_variant
+        description: >
+          A/B test variant assigned at event time. Null if user was not 
+          in an experiment.
+
+      - name: event_properties
+        description: Raw JSON blob of additional event metadata.
+
+  - name: stg_subscriptions
+    description: >
+      One row per subscription record. A single user may have multiple rows 
+      across plan changes, cancellations, or resubscriptions.
+    columns:
+      - name: subscription_id
+        description: Unique identifier for a subscription record.
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: The user this subscription belongs to.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+
+      - name: subscription_started_at
+        description: Date the subscription period began.
+        tests:
+          - not_null
+
+      - name: subscription_ended_at
+        description: Date the subscription ended. Null if currently active.
+
+      - name: plan
+        description: Lowercased plan name (e.g. free, starter, pro, enterprise).
+        tests:
+          - not_null
+
+      - name: subscription_status
+        description: Lowercased subscription status.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['active', 'canceled']
+
+      - name: monthly_revenue_usd
+        description: Monthly recurring revenue for this subscription in USD.
+
+      - name: is_active
+        description: True if the subscription has no end date (currently active).
+
+      - name: is_churned
+        description: True if the subscription has an end date.

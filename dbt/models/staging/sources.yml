@@ -1,0 +1,63 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      Raw data loaded directly into DuckDB. These tables are the unmodified
+      source of truth and should only be referenced via staging models.
+    schema: main  # DuckDB default schema; update if your tables live elsewhere
+
+    tables:
+      - name: raw_users
+        description: One row per user at the time of signup.
+        columns:
+          - name: user_id
+            description: Unique identifier for a user.
+          - name: signup_timestamp
+            description: Date the user created their account.
+          - name: acquisition_channel
+            description: Marketing channel that drove the signup (e.g. organic, paid, referral).
+          - name: country
+            description: Country of the user at signup.
+
+      - name: raw_events
+        description: >
+          One row per product event fired by a user. Includes behavioral data,
+          experiment assignment, and event-level metadata.
+        columns:
+          - name: event_id
+            description: Unique identifier for a single event occurrence.
+          - name: user_id
+            description: The user who fired the event.
+          - name: event_name
+            description: Name of the event (e.g. page_viewed, feature_used, signed_up).
+          - name: device_type
+            description: Device used when the event was fired (e.g. mobile, desktop, tablet).
+          - name: plan_type
+            description: The user's plan at the time the event was fired.
+          - name: experiment_variant
+            description: A/B test variant the user was assigned to at the time of the event.
+          - name: event_properties
+            description: JSON blob of additional event-level metadata.
+          - name: event_timestamp
+            description: Date the event was fired.
+
+      - name: raw_subscriptions
+        description: >
+          One row per subscription record. A user may have multiple rows
+          if they have upgraded, downgraded, or churned and resubscribed.
+        columns:
+          - name: subscription_id
+            description: Unique identifier for a subscription record.
+          - name: user_id
+            description: The user this subscription belongs to.
+          - name: plan
+            description: Subscription plan name (e.g. free, starter, pro, enterprise).
+          - name: start_date
+            description: Date the subscription period began.
+          - name: end_date
+            description: Date the subscription ended. Null if currently active.
+          - name: monthly_revenue
+            description: Monthly recurring revenue (MRR) for this subscription in USD.
+          - name: status
+            description: Current status of the subscription (e.g. active, cancelled, expired).

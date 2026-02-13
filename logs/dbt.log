@@ -1,0 +1,96 @@
+[0m14:40:49.922301 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x122574e00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x122db5b20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x122db58b0>]}
+
+
+============================== 14:40:49.925631 | 66ec032e-09b1-4747-a67e-6c4ef1a3cafb ==============================
+[0m14:40:49.925631 [info ] [MainThread]: Running with dbt=1.11.4
+[0m14:40:49.925971 [debug] [MainThread]: running dbt with arguments {'log_cache_events': 'False', 'fail_fast': 'False', 'invocation_command': 'dbt test --select staging', 'indirect_selection': 'eager', 'profiles_dir': '/Users/hazeldonaldson/.dbt', 'write_json': 'True', 'no_print': 'None', 'cache_selected_only': 'False', 'empty': 'None', 'printer_width': '80', 'warn_error': 'None', 'use_experimental_parser': 'False', 'partial_parse': 'True', 'introspect': 'True', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'quiet': 'False', 'target_path': 'None', 'use_colors': 'True', 'debug': 'False', 'log_path': 'logs', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True', 'log_format': 'default'}
+[0m14:40:49.926345 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/hazeldonaldson/Documents/saas-analytics-platform/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m14:40:49.927777 [debug] [MainThread]: Resource report: {"command_name": "test", "command_success": false, "command_wall_clock_time": 0.0470995, "process_in_blocks": "0", "process_kernel_time": 0.119839, "process_mem_max_rss": "104972288", "process_out_blocks": "0", "process_user_time": 0.65922}
+[0m14:40:49.928079 [debug] [MainThread]: Command `dbt test` failed at 14:40:49.928024 after 0.05 seconds
+[0m14:40:49.928260 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x122c72000>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x122db5940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x122db7a40>]}
+[0m14:40:49.928423 [debug] [MainThread]: Flushing usage events
+[0m14:40:50.056053 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:41:39.319053 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1042140e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104fc19d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104fc1760>]}
+
+
+============================== 14:41:39.323588 | dcd45f12-0a77-4be5-ba85-49e828b59177 ==============================
+[0m14:41:39.323588 [info ] [MainThread]: Running with dbt=1.11.4
+[0m14:41:39.323909 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'log_format': 'default', 'warn_error': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'no_print': 'None', 'indirect_selection': 'eager', 'send_anonymous_usage_stats': 'True', 'version_check': 'True', 'use_colors': 'True', 'log_cache_events': 'False', 'profiles_dir': '/Users/hazeldonaldson/.dbt', 'empty': 'None', 'fail_fast': 'False', 'log_path': 'logs', 'write_json': 'True', 'target_path': 'None', 'printer_width': '80', 'static_parser': 'True', 'invocation_command': 'dbt test --select staging', 'debug': 'False', 'cache_selected_only': 'False', 'quiet': 'False', 'use_experimental_parser': 'False', 'partial_parse': 'True'}
+[0m14:41:39.324257 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/hazeldonaldson/Documents/saas-analytics-platform/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m14:41:39.325590 [debug] [MainThread]: Resource report: {"command_name": "test", "command_success": false, "command_wall_clock_time": 0.044886168, "process_in_blocks": "0", "process_kernel_time": 0.113834, "process_mem_max_rss": "105119744", "process_out_blocks": "0", "process_user_time": 0.671449}
+[0m14:41:39.325874 [debug] [MainThread]: Command `dbt test` failed at 14:41:39.325829 after 0.05 seconds
+[0m14:41:39.326046 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104f59cd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1045e3e60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1042140e0>]}
+[0m14:41:39.326203 [debug] [MainThread]: Flushing usage events
+[0m14:41:39.434242 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:44:15.309196 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104073b30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1076b5940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1076b5730>]}
+
+
+============================== 14:44:15.314064 | 4fbeffc0-3b25-42c9-9f34-8953b6beaa81 ==============================
+[0m14:44:15.314064 [info ] [MainThread]: Running with dbt=1.11.4
+[0m14:44:15.314396 [debug] [MainThread]: running dbt with arguments {'no_print': 'None', 'fail_fast': 'False', 'printer_width': '80', 'target_path': 'None', 'version_check': 'True', 'partial_parse': 'True', 'static_parser': 'True', 'cache_selected_only': 'False', 'use_colors': 'True', 'empty': 'None', 'send_anonymous_usage_stats': 'True', 'log_path': '/Users/hazeldonaldson/Documents/saas-analytics-platform/logs', 'indirect_selection': 'eager', 'warn_error': 'None', 'debug': 'False', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt test --select staging', 'introspect': 'True', 'write_json': 'True', 'log_cache_events': 'False', 'profiles_dir': '/Users/hazeldonaldson/.dbt', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'use_experimental_parser': 'False'}
+[0m14:44:15.472230 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '4fbeffc0-3b25-42c9-9f34-8953b6beaa81', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107a6f710>]}
+[0m14:44:15.500536 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '4fbeffc0-3b25-42c9-9f34-8953b6beaa81', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1076b5520>]}
+[0m14:44:15.501952 [info ] [MainThread]: Registered adapter: duckdb=1.10.0
+[0m14:44:15.553899 [debug] [MainThread]: checksum: 092b177ba87eb6bb3c55954c38aa57900eebac336561eb9ee32218428aa81d43, vars: {}, profile: , target: , version: 1.11.4
+[0m14:44:15.554425 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m14:44:15.554634 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '4fbeffc0-3b25-42c9-9f34-8953b6beaa81', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107400f80>]}
+[0m14:44:15.929300 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.saas_analytics
+[0m14:44:15.931703 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '4fbeffc0-3b25-42c9-9f34-8953b6beaa81', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10771eae0>]}
+[0m14:44:15.951577 [debug] [MainThread]: Wrote artifact WritableManifest to /Users/hazeldonaldson/Documents/saas-analytics-platform/target/manifest.json
+[0m14:44:15.952803 [debug] [MainThread]: Wrote artifact SemanticManifest to /Users/hazeldonaldson/Documents/saas-analytics-platform/target/semantic_manifest.json
+[0m14:44:15.969434 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '4fbeffc0-3b25-42c9-9f34-8953b6beaa81', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108171430>]}
+[0m14:44:15.969703 [info ] [MainThread]: Found 472 macros
+[0m14:44:15.969865 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '4fbeffc0-3b25-42c9-9f34-8953b6beaa81', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1080c1100>]}
+[0m14:44:15.970116 [warn ] [MainThread]: The selection criterion 'staging' does not match any enabled nodes
+[0m14:44:15.970640 [warn ] [MainThread]: Nothing to do. Try checking your model configs and model specification args
+[0m14:44:15.970884 [debug] [MainThread]: Command end result
+[0m14:44:15.980635 [debug] [MainThread]: Wrote artifact WritableManifest to /Users/hazeldonaldson/Documents/saas-analytics-platform/target/manifest.json
+[0m14:44:15.981477 [debug] [MainThread]: Wrote artifact SemanticManifest to /Users/hazeldonaldson/Documents/saas-analytics-platform/target/semantic_manifest.json
+[0m14:44:15.983049 [debug] [MainThread]: Wrote artifact RunExecutionResult to /Users/hazeldonaldson/Documents/saas-analytics-platform/target/run_results.json
+[0m14:44:15.984427 [debug] [MainThread]: Resource report: {"command_name": "test", "command_success": true, "command_wall_clock_time": 0.7216129, "process_in_blocks": "0", "process_kernel_time": 0.173697, "process_mem_max_rss": "131399680", "process_out_blocks": "0", "process_user_time": 1.201059}
+[0m14:44:15.984652 [debug] [MainThread]: Command `dbt test` succeeded at 14:44:15.984610 after 0.72 seconds
+[0m14:44:15.984837 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1080eae70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1080ca060>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1076882f0>]}
+[0m14:44:15.984997 [debug] [MainThread]: Flushing usage events
+[0m14:44:16.115601 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:32:50.801987 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107bf54c0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1085b5820>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1085b5580>]}
+
+
+============================== 14:32:50.806080 | a3f54a77-2629-4c75-9a99-dcc62adb6717 ==============================
+[0m14:32:50.806080 [info ] [MainThread]: Running with dbt=1.11.4
+[0m14:32:50.806414 [debug] [MainThread]: running dbt with arguments {'cache_selected_only': 'False', 'partial_parse': 'True', 'profiles_dir': '/Users/hazeldonaldson/.dbt', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'write_json': 'True', 'no_print': 'None', 'log_format': 'default', 'log_path': 'logs', 'version_check': 'True', 'warn_error': 'None', 'send_anonymous_usage_stats': 'True', 'invocation_command': 'dbt test --select path:models/marts/experiments', 'use_experimental_parser': 'False', 'log_cache_events': 'False', 'static_parser': 'True', 'empty': 'None', 'printer_width': '80', 'indirect_selection': 'eager', 'use_colors': 'True', 'debug': 'False', 'quiet': 'False', 'fail_fast': 'False', 'target_path': 'None'}
+[0m14:32:50.806750 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/hazeldonaldson/Documents/saas-analytics-platform/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m14:32:50.808095 [debug] [MainThread]: Resource report: {"command_name": "test", "command_success": false, "command_wall_clock_time": 0.047217, "process_in_blocks": "0", "process_kernel_time": 0.111782, "process_mem_max_rss": "104939520", "process_out_blocks": "0", "process_user_time": 0.654868}
+[0m14:32:50.808369 [debug] [MainThread]: Command `dbt test` failed at 14:32:50.808320 after 0.05 seconds
+[0m14:32:50.808534 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1057e0da0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1081bd970>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1085b5670>]}
+[0m14:32:50.808707 [debug] [MainThread]: Flushing usage events
+[0m14:32:50.950255 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:33:30.503777 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1050023f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1182b59a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1182b5640>]}
+
+
+============================== 14:33:30.507255 | f9346c2c-aa6c-406d-8a49-e140c627bc45 ==============================
+[0m14:33:30.507255 [info ] [MainThread]: Running with dbt=1.11.4
+[0m14:33:30.507612 [debug] [MainThread]: running dbt with arguments {'warn_error': 'None', 'send_anonymous_usage_stats': 'True', 'use_colors': 'True', 'profiles_dir': '/Users/hazeldonaldson/.dbt', 'log_cache_events': 'False', 'indirect_selection': 'eager', 'debug': 'False', 'no_print': 'None', 'static_parser': 'True', 'partial_parse': 'True', 'log_path': 'logs', 'version_check': 'True', 'invocation_command': 'dbt test --select path:models/marts/experiments', 'log_format': 'default', 'cache_selected_only': 'False', 'fail_fast': 'False', 'target_path': 'None', 'empty': 'None', 'write_json': 'True', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'quiet': 'False', 'printer_width': '80', 'use_experimental_parser': 'False'}
+[0m14:33:30.507934 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/hazeldonaldson/Documents/saas-analytics-platform/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m14:33:30.508947 [debug] [MainThread]: Resource report: {"command_name": "test", "command_success": false, "command_wall_clock_time": 0.041391376, "process_in_blocks": "0", "process_kernel_time": 0.11599, "process_mem_max_rss": "105955328", "process_out_blocks": "0", "process_user_time": 0.665939}
+[0m14:33:30.509196 [debug] [MainThread]: Command `dbt test` failed at 14:33:30.509151 after 0.04 seconds
+[0m14:33:30.509361 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1182b5730>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1182b7a10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1182b7920>]}
+[0m14:33:30.509513 [debug] [MainThread]: Flushing usage events
+[0m14:33:30.628280 [debug] [MainThread]: An error was encountered while trying to flush usage events
