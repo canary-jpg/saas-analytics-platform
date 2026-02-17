@@ -1,0 +1,133 @@
+version: 2
+
+models:
+  - name: fct_user_activity_by_date
+    description: >
+      One row per user per day they were active (fired an event). This is the 
+      foundation for all retention analysis. Includes cohort assignments and 
+      time-since-signup calculations.
+    columns:
+      - name: user_id
+        description: The user who was active.
+        tests:
+          - not_null
+
+      - name: user_activity_date
+        description: Date the user was active.
+        tests:
+          - not_null
+
+      - name: cohort_week
+        description: The Monday of the week the user signed up (cohort identifier).
+        tests:
+          - not_null
+
+      - name: cohort_month
+        description: First day of the month the user signed up.
+        tests:
+          - not_null
+
+      - name: acquisition_channel
+        description: User's acquisition channel (for segmented retention).
+
+      - name: country
+        description: User's country (for segmented retention).
+
+      - name: signed_up_at
+        description: Date the user signed up.
+
+      - name: days_since_signup
+        description: Number of days between signup and this activity date.
+
+      - name: weeks_since_cohort
+        description: >
+          Number of weeks since the user's cohort week. 0 = signup week, 
+          1 = first week after signup, etc.
+
+      - name: months_since_cohort
+        description: Number of months since the user's cohort month.
+
+  - name: rpt_retention_cohorts
+    description: >
+      Classic retention cohort table. One row per cohort_week showing the % of 
+      users who were active in weeks 0-12 after signup. This is the "triangular" 
+      retention table you see in most product analytics tools.
+    columns:
+      - name: cohort_week
+        description: The Monday of the cohort week.
+        tests:
+          - unique
+          - not_null
+
+      - name: cohort_size
+        description: Total number of users in this cohort.
+
+      - name: week_0_pct
+        description: Percent of cohort active in week 0 (signup week).
+
+      - name: week_1_pct
+        description: Percent of cohort active in week 1.
+
+      - name: week_2_pct
+        description: Percent of cohort active in week 2.
+
+      - name: week_3_pct
+        description: Percent of cohort active in week 3.
+
+      - name: week_4_pct
+        description: Percent of cohort active in week 4.
+
+      - name: week_5_pct
+        description: Percent of cohort active in week 5.
+
+      - name: week_6_pct
+        description: Percent of cohort active in week 6.
+
+      - name: week_7_pct
+        description: Percent of cohort active in week 7.
+
+      - name: week_8_pct
+        description: Percent of cohort active in week 8.
+
+      - name: week_9_pct
+        description: Percent of cohort active in week 9.
+
+      - name: week_10_pct
+        description: Percent of cohort active in week 10.
+
+      - name: week_11_pct
+        description: Percent of cohort active in week 11.
+
+      - name: week_12_pct
+        description: Percent of cohort active in week 12.
+
+  - name: rpt_retention_curves
+    description: >
+      Long-format retention data optimized for charting. One row per 
+      cohort_week-weeks_since_cohort pair. Use this to build retention curves 
+      in Looker, Tableau, or other BI tools.
+    columns:
+      - name: cohort_week
+        description: The Monday of the cohort week.
+        tests:
+          - not_null
+
+      - name: weeks_since_cohort
+        description: Weeks since the cohort week (0, 1, 2, 3...).
+        tests:
+          - not_null
+
+      - name: cohort_size
+        description: Total users in this cohort.
+
+      - name: active_users
+        description: Number of users from this cohort active in this week.
+
+      - name: retention_rate
+        description: Retention rate as a decimal (active_users / cohort_size).
+
+      - name: retention_pct
+        description: Retention rate as a percentage.
+
+      - name: cohort_label
+        description: Human-readable cohort label for charting (e.g. '2024-01-01 Cohort').

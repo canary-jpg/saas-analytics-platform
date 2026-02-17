@@ -1,0 +1,79 @@
+version: 2
+
+models:
+  - name: rpt_upgrade_analysis
+    description: >
+      Analyzes when and how users convert to paid plans. One row per user who
+      has ever upgraded, showing timing, pre-conversion behavior, and which
+      events they completed before upgrading.
+    columns:
+      - name: user_id
+        description: Unique identifier for the user.
+        tests:
+          - unique
+          - not_null
+
+      - name: signed_up_at
+        description: When the user created their account.
+
+      - name: acquisition_channel
+        description:  Marketing channel that drove the signup.
+
+      - name: country
+        description: User's country
+
+      - name: first_paid_at
+        description: When the user first upgraded to a paid plan
+        tests:
+          - not_null
+
+      - name: first_plan
+        description: The first paid plan the user subscribed to.
+
+      - name: days_to_upgrade
+        description: Number of days from signup to first paid subscription.
+
+      - name: hours_to_upgrade
+        description: Number of hours from signup to first paid subscription.
+
+      - name: upgrade_timeframe
+        description: Bucketed timeframe for upgrade (e.g. 'Same Day', 'Days 2-3', etc.).
+
+      - name: onboarding_completed_before_upgrade
+        description: Count of onboarding_completed events before upgrading.
+
+      - name: feature_a_used_before_upgrade
+        description: Count of feature_a_used events before upgrading.
+
+      - name: feature_b_used_before_upgrade
+        description: Countr of feature_b_used events before upgrading.
+
+      - name: completed_onboarding_before_upgrade
+        description: True if user completed onboarding before upgrading.
+
+      - name: used_feature_a_before_upgrade
+        description: True if user used feature A before upgrading.
+
+      - name: used_feature_b_before_upgrade
+        description: True if user used feature B before upgrading.
+
+  - name: rpt_event_conversion_correlation
+    description: >
+      Shows which early behaviors (in the first 7 days) correlate with eventual
+      conversion to paid. Compares conversion rates for users who completed
+      vs. did not complete key events.
+    columns:
+      - name: event_type
+        description: The event being analyzed (e.g. 'Onboarding Completed', 'Feature A Used').
+
+      - name: completed_event
+        description: Whether the user completed this event (true/false).
+
+      - name: total_users
+        description: Total users in this segment.
+
+      - name: paid_users
+        description: Number of users in this segment who eventaully became paid.
+
+      - name: conversion_rate
+        description: Percent of users in this segment who became paid.

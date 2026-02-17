@@ -1,0 +1,163 @@
+version: 2
+
+models:
+  - name: fct_mrr_by_month
+    description: >
+      Monthly snapshot showing MRR for each user and subscription. One row per
+      user-subscription-month where the subscription was active. This is the 
+      foundation for all MRR analysis and growth accounting.
+    columns:
+      - name: month_date
+        description: First day of the month (e.g. 2024-01-01).
+        tests:
+          - not_null
+
+      - name: user_id
+        description: The user who owns this subscription.
+        tests:
+          - not_null
+
+      - name: subscription_id
+        description: Unique identifier for the subscription.
+        tests:
+          - not_null
+
+      - name: plan
+        description: Subscription plan name.
+
+      - name: mrr
+        description: Monthly recurring revenue for this subscription in USD.
+        tests:
+          - not_null
+
+      - name: subscription_age_months
+        description: Number of months since this subscription started.
+
+      - name: is_first_month
+        description: True if this the first month of the subscription.
+
+      - name: is_active_subscription
+        description: True if the subscription is currently active (no end date).
+
+  - name: rpt_mrr_movements
+    description: >
+      Monthly MRR movements report showing growth accounting: new MRR, expansion, 
+      contraction, and churn. This is the classic SaaS metrics table for tracking
+      how MRR grows or shrinks each month.
+    columns:
+      - name: month_date
+        description: First day of the month.
+        tests:
+          - unique
+          - not_null
+
+      - name: new_customers
+        description: Count of customers with their first paid subscription this month
+
+      - name: expansion_customers
+        description: Count of customers who increased their MRR this month.
+
+      - name: contraction_customers
+        description: Count of customers who decreased their MRR this month.
+
+      - name: churned_customers
+        description: Count of customers who when to $0 MRR this month.
+
+      - name: retained_customers
+        description: Count of customers with unchanged MRR this month.
+
+      - name: reactivated_customers
+        description: Count of customers who returned after previously churning.
+
+      - name: total_customers
+        description: Total paying customers in this month.
+      
+      - name: new_mrr
+        description: MRR from new customers this month.
+
+      - name: expansion_mrr
+        description: Additional MRR from existing customers upgrading.
+
+      - name: contraction_mrr
+        description: Lost MRR from existing customers downgrading.
+
+      - name: churned_mrr
+        description: Lost MRR from customers churning to $0.
+
+      - name: retained_mrr
+        description: MRR from customers with no change.
+
+      - name: total_mrr
+        description: Total MRR at the end of the month.
+
+      - name: prior_month_mrr
+        description: Total MRR at the end of the last month.
+
+      - name: net_mrr_change
+        description: Net change in MRR (new + expansion - contraction - churn).
+
+      - name: mrr_growth_rate
+        description: Percent growth in MRR month-over-month.
+
+      - name: churn_rate
+        description: Percent of prior month MRR that churned this month.
+
+  - name: rpt_customer_ltv
+    description: >
+      Customer lifetime value analysis. One rwo per paying customer showing their
+      total revenue, lifetime duration, average revenue, and segmentation by cohort
+      and acquisition channel.
+    columns:
+      - name: user_id
+        description: Unique identifier for the customer.
+        tests:
+          - unique
+          - not_null
+
+      - name: signed_up_at
+        description: Date the customer signed up.
+
+      - name: cohort_month
+        description: First day of the month the customer signed up.
+
+      - name: acquisition_channel
+        description: Marketing channel that acquired this customer.
+
+      - name: country
+        description: Customer's country.
+
+      - name: first_subscription_date
+        description: Date of the customer's first paid subscription.
+
+      - name: last_subscription_end_date
+        description: Date the customer's last subscription end (null if active).
+
+      - name: lifetime_months
+        description: >
+          Number of months the customer has been paying. For active customers,
+          calculate from first subscription to today. For churned customers,
+          calculated from first to last subscription.
+
+      - name: total_subscriptions
+        description: Count of subscriptions this customer has had.
+
+      - name: total_revenue
+        description: Sum of monthly_revenue_usd across all subscriptions.
+
+      - name: avg_monthly_revenue
+        description: Average monthly_revenue_usd across all subscriptions.
+      
+      - name: ltv
+        description: Customer lifetime value (total revenue to date).
+
+      - name: arpu
+        description: Average revenue per user per month (total_revenue / lifetime_months).
+
+      - name: is_currently_active
+        description: True if the customer currently has an active subscription.
+
+      - name: has_churned
+        description: True if the customer has ever churned.
+
+      - name: days_to_first_subscription
+        description: Days from signup to first paid subscription.
