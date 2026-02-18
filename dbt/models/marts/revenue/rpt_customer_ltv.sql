@@ -8,7 +8,7 @@ with users as (
     select * from {{ ref('dim_users') }}
 ),
 
-subscription as (
+subscriptions as (
     select * from {{ ref('stg_subscriptions') }}
 ),
 
@@ -82,7 +82,7 @@ final as (
         datediff('day', u.signed_up_at, ltv.first_subscription_date) as days_to_first_subscription
     from users u 
     inner join user_ltv ltv 
-        u.user_id = ltv.user_id 
+        on u.user_id = ltv.user_id 
 )
 
 select * from final 

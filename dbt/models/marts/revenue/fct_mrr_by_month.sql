@@ -32,7 +32,7 @@ subscription_months as (
         s.subscription_started_at,
         s.subscription_ended_at,
         d.month_date 
-    from subscriptions
+    from subscriptions s
     cross join date_spine d 
     where d.month_date >= date_trunc('month', s.subscription_started_at)
         and (
