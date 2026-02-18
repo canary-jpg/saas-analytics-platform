@@ -1,0 +1,201 @@
+version: 2
+
+models:
+  - name: rpt_feature_adoption
+    description: >
+      Tracks which features users adopt, when they first use them, and how
+      engaged they are with each feature. One row per user-feature pair.
+    columns:
+      - name: user_id
+        description: Unique identifier for the user.
+        tests:
+          - not_null
+          
+      - name: signed_up_at
+        description: When the user signed up.
+
+      - name: cohort_month
+        description: First day of the month the user signed up.
+
+      - name: acquisition_channel
+        description: Marketing channel that acquired this user.
+
+      - name: user_lifecycle_stage
+        description: Current lifecycle stage of the user.
+
+      - name: is_currently_subscribed
+        description: Whether the user currently has an active subscription.
+
+      - name: feature
+        description: Name of the feature.
+        tests:
+          - not_null
+        
+      - name: first_used_at
+        description: When the user first used this feature.
+
+      - name: last_used_at
+        description: When the user the last used this feature.
+
+      - name: total_uses
+        description: Total number of times the user has used this feature.
+
+      - name: days_used
+        description: Number of distinct days the user used this feature.
+
+      - name: days_to_first_use
+        description: Days from signup to first use of this feature.
+
+      - name: hours_to_first_use
+        description: Hours from signup to first use of this feature.
+
+      - name: adoption_timeframe
+        description: Bucketed timeframe for feature adoption.
+
+      - name: engagement_level
+        description: User's engagement level with thie feature (Power/Regular/Occasional/One-Time).
+
+      - name: days_since_last_use
+        description: Days since the user last used this feature.
+
+  - name: rpt_user_engagement_score
+    description: >
+      Calculates engagement metrics and an overall engagement score (0-100)
+      for each user based on recency, frequency, and breadth of activity.
+      One row per user.
+    columns:
+      - name: user_id
+        description: Unique identifier for the use
+        tests:
+          - unique
+          - not_null
+
+      - name: signed_up_at
+        description: When the user signed up.
+
+      - name: acquisition_channel
+        description: Marketing channel that acquired this user.
+
+      - name: is_currently_subscribed
+        description: Whether the the has an active subscription.
+
+      - name: user_lifecycle_stage
+        description: Current lifecycle stage.
+
+      - name: total_active_days
+        description: Total number of distinct days the user has been active.
+
+      - name: active_days_l30d
+        description: Number of days active in the last 30 days.
+
+      - name: active_days_l7d
+        description: Number of days active in the last 7 days.
+
+      - name: avg_days_per_week_l30d
+        description: Average days active per week over the last 30 days.
+
+      - name: first_active_date
+        description: First day the user was active.
+
+      - name: last_active_date
+        description: Most recent day the user was active.
+
+      - name: activity_span_days
+        description: Days from first to last activity.
+
+      - name: unique_events_all_time
+        description: Count of unqiue event types fired all-time.
+
+      - name: total_events_all_time
+        description: Total events fired all-time.
+
+      - name: unique_events_l30d
+        description: Count of unique event types fired in the last 30 days.
+
+      - name: total_events_l30d
+        description: Total events fired in the last 30 days.
+
+      - name: engagement_score
+        description: >
+          Engagement score from 0-100. Formula: recency (30 pts) +
+          frequency (40 pts) + breath (30 pts).
+
+      - name: engagement_tier
+        description: Engagement tier based on score (High/Medium/Low/Dormant).
+
+      - name: days_since_last_active
+        description: Days since the user was last active.
+
+  - name: rpt_activation_funnel
+    description: >
+      Tracks users progression through activation milestones: signup, onboarding,
+      feature usage, and upgrade. Shows which steps users completed and how long
+      each step takes. One row per user.
+    columns:
+      - name: user_id
+        description: Unique identifier for the user.
+        tests:
+          - unique
+          - not_null
+
+      - name: signed_up_at
+        description: When the user signed up.
+
+      - name: cohort_month
+        description: First day of the month the user signed up.
+
+      - name: acquisition_channel
+        description: Marketing channel.
+
+      - name: country
+        description: User's country.
+
+      - name: is_currently_subscribed
+        description: Whether user has active subscription.
+
+      - name: completed_signup
+        description: Whether user completed signup (always true).
+
+      - name: completed_onboarding
+        description: Whether user completed onboarding.
+
+      - name: used_feature_a
+        description: Whether user has used Feature A.
+
+      - name: used_feature_b
+        description: Whether user has used Feature B.
+
+      - name: upgraded
+        description: Whether user has upgraded to paid.
+
+      - name: onboarding_completed_at
+        description: When onboarding was completed.
+
+      - name: feature_a_first_used_at
+        description: When Feature A was first used.
+
+      - name: feature_b_first_used_at
+        description: When Feature B was first used.
+
+      - name: upgrade_at
+        description: When the user upgraded to paid.
+
+      - name: days_to_onboarding
+        description: Days from signup to onboarding completion.
+
+      - name: days_to_feature_a
+        description: Days from signup to first Feature A use.
+
+      - name: days_to_feature_b
+        description: Days from signup to first Feature B use.
+
+      - name: days_to_upgrade
+        description: Days from signup to upgrade.
+
+      - name: activation_level
+        description: >
+          User's activation: Fully activated (Paid), Feature User,
+          Onboarded, or Signed up only.
+
+      - name: activation_score
+        description: Score from 0-5 based on activation steps completed.
