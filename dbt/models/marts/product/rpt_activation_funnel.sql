@@ -70,9 +70,9 @@ user_activation as (
 
         --activation level (how many steps completed?)
         case 
-            when coalesce(um.upgrade_at, false) as 'Full Activated (Paid)'
-            when coalesce(um.used_feature_a, false) or coalesce(um.used_feature_b, false) as 'Feature User'
-            when coalesce(um.completed_onboarding, false) as 'Onboarded'
+            when coalesce(um.upgraded, false) then 'Full Activated (Paid)'
+            when coalesce(um.used_feature_a, false) or coalesce(um.used_feature_b, false) then 'Feature User'
+            when coalesce(um.completed_onboarding, false) then 'Onboarded'
             else 'Signed Up Only'
         end as activation_level,
 
@@ -81,7 +81,7 @@ user_activation as (
         (case when coalesce(um.completed_onboarding, false) then 1 else 0 end) + 
         (case when coalesce(um.used_feature_a, false) then 1 else 0 end) +
         (case when coalesce(um.used_feature_b, false) then 1 else 0 end) +
-        (case when coalesce(u.upgraded, false) then 1 else 0 end) as activation_score
+        (case when coalesce(um.upgraded, false) then 1 else 0 end) as activation_score
     from users u 
     left join user_milestones um 
         on u.user_id = um.user_id  

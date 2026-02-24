@@ -34,7 +34,7 @@ feature_adoption as (
         date_trunc('month', u.signed_up_at) as cohort_month,
         u.acquisition_channel,
         u.user_lifecycle_stage,
-        u.is_currently_subscription,
+        u.is_currently_subscribed,
         fe.feature,
         fe.first_used_at,
         fe.last_used_at,

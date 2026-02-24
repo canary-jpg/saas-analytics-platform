@@ -4,7 +4,7 @@
     )
 }}
 
-with user as (
+with users as (
     select * from {{ ref('dim_users') }}
 ),
 
@@ -16,35 +16,43 @@ events as (
     select * from {{ ref('fct_events') }}
 ),
 
+--get the latest date in the data to use as "today"
+data_date_range as (
+    select
+        max(user_activity_date) as latest_date
+    from activity
+),
+
 --calculate activity metrics per user
 user_activity_metrics as (
     select 
         user_id,
 
         --overall activity
-        count(distinct user_activity_date) as total_active_days,
-        min(user_activity_date) as first_active_date,
-        max(user_activity_date) as last_active_date,
-        datediff('day', min(user_activity_date), max(user_activity_date)) + 1 as activity_span_days,
+        count(distinct a.user_activity_date) as total_active_days,
+        min(a.user_activity_date) as first_active_date,
+        max(a.user_activity_date) as last_active_date,
+        datediff('day', min(a.user_activity_date), max(a.user_activity_date)) + 1 as activity_span_days,
 
         --recent activity (last 30 days)
         count(distinct case
-            when user_activity_date >= current_date - interval '30 days'
-            then user_activity_date
+            when a.user_activity_date >= d.latest_date - interval '30 days'
+            then a.user_activity_date
         end) as active_days_l30d,
 
         count(distinct case
-            when user_activity_date >= current_date - interval '7 days'
-            then user_activity_date
+            when a.user_activity_date >= d.latest_date - interval '7 days'
+            then a.user_activity_date
         end) as active_days_l7d,
 
         --weekly activity rate
         count(distinct case
-            when user_activity_date >= current_date - interval '30 days'
-            then user_activity_date
+            when a.user_activity_date >= d.latest_date - interval '30 days'
+            then a.user_activity_date
             end)::float / 30 * 7 as avg_days_per_week_l30d
-    from activity 
-    group by user_id 
+    from activity a
+    cross join data_date_range d 
+    group by a.user_id, d.latest_date
 ),
 
 --calculate event diversity (breadth of engagement)
@@ -56,17 +64,18 @@ user_event_diversity as (
 
         --last 30 days
         count(distinct case
-            when e.event_at >= current_date - interval '30 days'
+            when e.event_at >= d.latest_date - interval '30 days'
             then e.event_name
         end) as unique_events_l30d,
 
         count(distinct case
-            when e.event_at >= current_date - interval '30 days'
+            when e.event_at >= d.latest_date - interval '30 days'
             then 1
         end) as total_events_l30d
     from events e 
+    cross join data_date_range d 
     where e.event_at is not null 
-    group by e.user_id 
+    group by e.user_id, d.latest_date
 ),
 
 --combine metrics and calculate engagement score
